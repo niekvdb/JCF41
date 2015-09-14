@@ -142,8 +142,9 @@ public class WoordenController implements Initializable {
 
     @FXML
     private void concordatieAction(ActionEvent event) {
-        //we hebben gekozen voor een map aangezien we gebruik gaan maken van een key(het woord) en een value (de positie) 
-        //we hebben daarvoor een TreeMap gekozen omdat deze automatisch sorteert 
+        // we hebben gekozen voor een map aangezien we gebruik gaan maken van een key(het woord) en een value (de positie)
+        // we doen dit door het woord in de key op te slaan, en de verschillende zinslocaties in de value
+        // we hebben daarvoor een TreeMap gekozen omdat deze automatisch sorteert op de volgorde van de woorden (keys)
         TreeMap map = new TreeMap();
         //aanmaken van een int(eerste zin)
         int i = 1;
@@ -152,7 +153,13 @@ public class WoordenController implements Initializable {
             //kijken of het woord al in de treemap staat, zo niet voeg het toe aan de map, anders updaten van de value
             for (String word : getInput(sentence)) { 
                 if (map.containsKey(word)) {
-                    map.replace(word, map.get(word) + ", " + String.valueOf(i));
+                    // We gaan voorkomen dat de
+                    // woorden 2 keer in een zin gevonden worden.
+                    // hiervoor bouwen we een simpele check in
+                    
+                    if(!map.get(word).toString().contains(String.valueOf(i))) {
+                        map.replace(word, map.get(word) + ", " + String.valueOf(i));
+                    }
                 } else {
                     map.put(word, String.valueOf(i));
                 }
