@@ -23,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * FXML Controller class
@@ -56,7 +57,30 @@ public class WoordenController implements Initializable {
     }
 
     @FXML
-    private void aantalAction(ActionEvent event) {        
+    private void aantalAction(ActionEvent event) {
+        // methode aanroepen
+        taOutput.setText(aantalActionsMethod(taInput.getText()));
+    }
+
+    @FXML
+    private void sorteerAction(ActionEvent event) {
+        // methode aanroepen
+        taOutput.setText(sorteerActionMethod(taInput.getText()));
+    }
+
+    @FXML
+    private void frequentieAction(ActionEvent event) {
+        // methode aanroepen
+        taOutput.setText(frequentieActionMethod(taInput.getText()));
+    }
+
+    @FXML
+    private void concordatieAction(ActionEvent event) {
+        // methode aanroepen
+        taOutput.setText(concordatieActionMethod(taInput.getText()));
+    }
+    
+    private String aantalActionsMethod(String input) {
         /// We hebben hier gekozen voor een HashSet
         /// De keuze om een set ipv een map te gebruiken
         /// komt voor uit het feit dat we geen key - value 
@@ -67,41 +91,41 @@ public class WoordenController implements Initializable {
         /// hier niet gessorteerd hoeven te worden   
 
         // Get list of words
-        ArrayList<String> wordCount = getInput(taInput.getText());
-        //clear output
-        taOutput.setText("");
+        ArrayList<String> wordCount = getInput(input);
+        
+        String returnText;
         // Add total number of words to output 
-        taOutput.setText("Totaal aantal woorden: " + wordCount.size() + "\n");
+        returnText = "Totaal aantal woorden: " + wordCount.size() + "\n";
         
         //TreeSet<String> differentWordCount = new TreeSet<>();
         Set<String> differentWordCount = new HashSet<>();
         differentWordCount.addAll(wordCount);
         // Add number of different words to the output field
-        taOutput.setText(taOutput.getText() + "Aantal verschillende woorden: " + differentWordCount.size());
+        return returnText + "Aantal verschillende woorden: " + differentWordCount.size();
     }
-
-    @FXML
-    private void sorteerAction(ActionEvent event) {
+    
+    private String sorteerActionMethod(String input) {
         /// We hebben hier gekozen voor een treeset
         /// We hebben ten eerste gekozen voor een set
         /// aangezien we geen gebruik willen maken van een key - value paar
         /// Vervolgens hebben we voor de Treeset gekozen aangezien
         /// we gebruik willen maken van de sorteering van de Treeset.
         /// Aangezien we de woorden op (omgekeerde)volgorde willen printen
-        
-        taOutput.clear();
         // Get list of words
-        ArrayList<String> words = getInput(taInput.getText());
+        ArrayList<String> words = getInput(input);
         TreeSet<String> uniqueWords = new TreeSet<>(Collections.reverseOrder());
         uniqueWords.addAll(words);
         
+        String returnString = "";
+        
         for (String s : uniqueWords) {
-            taOutput.setText(taOutput.getText() + s + "\n");
+            returnString += s + "\n";
         }
+        
+        return returnString;
     }
-
-    @FXML
-    private void frequentieAction(ActionEvent event) {
+    
+    private String frequentieActionMethod(String input) {
         /// We hebben gekozen voor een HashMap
         /// we hebben gekozen voor een Map omdat een key - value paar
         /// wenselijk is, we willen namelijk het woord als key
@@ -109,11 +133,9 @@ public class WoordenController implements Initializable {
         /// We hebben gekozen voor een Hashmap aangezien we het aantal woorden
         /// willen sorteren en dit niet als key kunnen gebruiken.
         /// Aan de TreeSet zullen we dus niets hebben
-     
-        // Het output veld leeg maken
-        taOutput.clear();
+        
         // Alle woorden ophalen
-        ArrayList<String> words = getInput(taInput.getText());
+        ArrayList<String> words = getInput(input);
         HashMap<String, Integer> map = new HashMap<>();
         
         // als de key nog niet voorkomt dan voer je het nieuwe veld in met value 1
@@ -131,17 +153,20 @@ public class WoordenController implements Initializable {
             }
         }
         
+        String returnString = "";
+        
         for(int i = 1; i <= hoogsteWaarde; i++) {
             for(Map.Entry<String, Integer> entry : map.entrySet()) {
                 if(entry.getValue() == i) {
-                    taOutput.setText(taOutput.getText() + entry.getKey() + ":\t" + entry.getValue() + "\n");
+                    returnString += entry.getKey() + ":\t" + entry.getValue() + "\n";
                 }
             }
         }
+        
+        return returnString;
     }
-
-    @FXML
-    private void concordatieAction(ActionEvent event) {
+    
+    private String concordatieActionMethod(String input) {
         // we hebben gekozen voor een map aangezien we gebruik gaan maken van een key(het woord) en een value (de positie)
         // we doen dit door het woord in de key op te slaan, en de verschillende zinslocaties in de value
         // we hebben daarvoor een TreeMap gekozen omdat deze automatisch sorteert op de volgorde van de woorden (keys)
@@ -149,7 +174,7 @@ public class WoordenController implements Initializable {
         //aanmaken van een int(eerste zin)
         int i = 1;
         //zinnen ophalen om te kijken waar de woorden staan
-        for (String sentence : taInput.getText().split("\n")) {
+        for (String sentence : input.split("\n")) {
             //kijken of het woord al in de treemap staat, zo niet voeg het toe aan de map, anders updaten van de value
             for (String word : getInput(sentence)) { 
                 if (map.containsKey(word)) {
@@ -172,7 +197,7 @@ public class WoordenController implements Initializable {
         for (Object s : map.keySet()) {
             output += s + ": " + "[" +map.get(s)+"]" + "\n";
         }
-        taOutput.setText(output);
+        return output;
     }
 
     public ArrayList<String> getInput(String input) {
