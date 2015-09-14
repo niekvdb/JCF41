@@ -80,7 +80,7 @@ public class WoordenController implements Initializable {
         taOutput.setText(concordatieActionMethod(taInput.getText()));
     }
     
-    private String aantalActionsMethod(String input) {
+    public String aantalActionsMethod(String input) {
         /// We hebben hier gekozen voor een HashSet
         /// De keuze om een set ipv een map te gebruiken
         /// komt voor uit het feit dat we geen key - value 
@@ -104,7 +104,7 @@ public class WoordenController implements Initializable {
         return returnText + "Aantal verschillende woorden: " + differentWordCount.size();
     }
     
-    private String sorteerActionMethod(String input) {
+    public String sorteerActionMethod(String input) {
         /// We hebben hier gekozen voor een treeset
         /// We hebben ten eerste gekozen voor een set
         /// aangezien we geen gebruik willen maken van een key - value paar
@@ -125,7 +125,7 @@ public class WoordenController implements Initializable {
         return returnString;
     }
     
-    private String frequentieActionMethod(String input) {
+    public String frequentieActionMethod(String input) {
         /// We hebben gekozen voor een HashMap
         /// we hebben gekozen voor een Map omdat een key - value paar
         /// wenselijk is, we willen namelijk het woord als key
@@ -166,7 +166,7 @@ public class WoordenController implements Initializable {
         return returnString;
     }
     
-    private String concordatieActionMethod(String input) {
+    public String concordatieActionMethod(String input) {
         // we hebben gekozen voor een map aangezien we gebruik gaan maken van een key(het woord) en een value (de positie)
         // we doen dit door het woord in de key op te slaan, en de verschillende zinslocaties in de value
         // we hebben daarvoor een TreeMap gekozen omdat deze automatisch sorteert op de volgorde van de woorden (keys)
