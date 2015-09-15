@@ -6,8 +6,10 @@ package woordenapplicatie.gui;
  * and open the template in the editor.
  */
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,7 +39,7 @@ public class WoordenController implements Initializable {
             + "Een, twee, drie, vier\n"
             + "Hoedje van papier\n"
             + "\n";
-
+    
     @FXML
     private Button btAantal;
     @FXML
@@ -59,27 +61,31 @@ public class WoordenController implements Initializable {
     @FXML
     private void aantalAction(ActionEvent event) {
         // methode aanroepen
+        taOutput.clear();
         taOutput.setText(aantalActionsMethod(taInput.getText()));
     }
 
     @FXML
     private void sorteerAction(ActionEvent event) {
         // methode aanroepen
+        taOutput.clear();
         taOutput.setText(sorteerActionMethod(taInput.getText()));
     }
 
     @FXML
     private void frequentieAction(ActionEvent event) {
         // methode aanroepen
+        taOutput.clear();
         taOutput.setText(frequentieActionMethod(taInput.getText()));
     }
 
     @FXML
     private void concordatieAction(ActionEvent event) {
         // methode aanroepen
+        taOutput.clear();
         taOutput.setText(concordatieActionMethod(taInput.getText()));
     }
-    
+
     public String aantalActionsMethod(String input) {
         /// We hebben hier gekozen voor een HashSet
         /// De keuze om een set ipv een map te gebruiken
@@ -92,18 +98,18 @@ public class WoordenController implements Initializable {
 
         // Get list of words
         ArrayList<String> wordCount = getInput(input);
-        
+
         String returnText;
         // Add total number of words to output 
         returnText = "Totaal aantal woorden: " + wordCount.size() + "\n";
-        
+
         //TreeSet<String> differentWordCount = new TreeSet<>();
         Set<String> differentWordCount = new HashSet<>();
         differentWordCount.addAll(wordCount);
         // Add number of different words to the output field
         return returnText + "Aantal verschillende woorden: " + differentWordCount.size();
     }
-    
+
     public String sorteerActionMethod(String input) {
         /// We hebben hier gekozen voor een treeset
         /// We hebben ten eerste gekozen voor een set
@@ -115,16 +121,16 @@ public class WoordenController implements Initializable {
         ArrayList<String> words = getInput(input);
         TreeSet<String> uniqueWords = new TreeSet<>(Collections.reverseOrder());
         uniqueWords.addAll(words);
-        
+
         String returnString = "";
-        
+
         for (String s : uniqueWords) {
             returnString += s + "\n";
         }
-        
+
         return returnString;
     }
-    
+
     public String frequentieActionMethod(String input) {
         /// We hebben gekozen voor een HashMap
         /// we hebben gekozen voor een Map omdat een key - value paar
@@ -133,39 +139,39 @@ public class WoordenController implements Initializable {
         /// We hebben gekozen voor een Hashmap aangezien we het aantal woorden
         /// willen sorteren en dit niet als key kunnen gebruiken.
         /// Aan de TreeSet zullen we dus niets hebben
-        
+
         // Alle woorden ophalen
         ArrayList<String> words = getInput(input);
         HashMap<String, Integer> map = new HashMap<>();
-        
+
         // als de key nog niet voorkomt dan voer je het nieuwe veld in met value 1
         // komt hij wel voor dan hoog je de value op met 1
         int hoogsteWaarde = 0;
-        
-        for(String s : words) {
-            if(!map.containsKey(s)) {
+
+        for (String s : words) {
+            if (!map.containsKey(s)) {
                 map.put(s, 1);
             } else {
                 map.replace(s, map.get(s) + 1);
-                if(hoogsteWaarde < map.get(s)) {
+                if (hoogsteWaarde < map.get(s)) {
                     hoogsteWaarde = map.get(s);
                 }
             }
         }
-        
+
         String returnString = "";
-        
-        for(int i = 1; i <= hoogsteWaarde; i++) {
-            for(Map.Entry<String, Integer> entry : map.entrySet()) {
-                if(entry.getValue() == i) {
+
+        for (int i = 1; i <= hoogsteWaarde; i++) {
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                if (entry.getValue() == i) {
                     returnString += entry.getKey() + ":\t" + entry.getValue() + "\n";
                 }
             }
         }
-        
+
         return returnString;
     }
-    
+
     public String concordatieActionMethod(String input) {
         // we hebben gekozen voor een map aangezien we gebruik gaan maken van een key(het woord) en een value (de positie)
         // we doen dit door het woord in de key op te slaan, en de verschillende zinslocaties in de value
@@ -176,13 +182,13 @@ public class WoordenController implements Initializable {
         //zinnen ophalen om te kijken waar de woorden staan
         for (String sentence : input.split("\n")) {
             //kijken of het woord al in de treemap staat, zo niet voeg het toe aan de map, anders updaten van de value
-            for (String word : getInput(sentence)) { 
+            for (String word : getInput(sentence)) {
                 if (map.containsKey(word)) {
                     // We gaan voorkomen dat de
                     // woorden 2 keer in een zin gevonden worden.
                     // hiervoor bouwen we een simpele check in
-                    
-                    if(!map.get(word).toString().contains(String.valueOf(i))) {
+
+                    if (!map.get(word).toString().contains(String.valueOf(i))) {
                         map.replace(word, map.get(word) + ", " + String.valueOf(i));
                     }
                 } else {
@@ -195,7 +201,7 @@ public class WoordenController implements Initializable {
         //omzetten naar text 
         String output = "";
         for (Object s : map.keySet()) {
-            output += s + ": " + "[" +map.get(s)+"]" + "\n";
+            output += s + ": " + "[" + map.get(s) + "]" + "\n";
         }
         return output;
     }
@@ -204,8 +210,8 @@ public class WoordenController implements Initializable {
         //split input text with a comma,dot, a new line or whitespace 
         String[] numberOfWords = input.split("\\.|,|\\n| ");
         ArrayList<String> list = new ArrayList<>();
-        
-        for(String s : numberOfWords) {
+
+        for (String s : numberOfWords) {
             list.add(s.toLowerCase());
         }
 
