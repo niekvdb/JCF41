@@ -12,37 +12,44 @@ import java.util.List;
  * @author Thomas Kleinendorst
  */
 public class HuffmanNode implements Comparable<HuffmanNode> {
+
     private int frequency;
     private boolean isCharacterNode;
     private CharFrequency chr;
-    
+
     private HuffmanNode leftChildNode, rightChildNode;
-    
-    
+
     public HuffmanNode(HuffmanNode leftChildNode, HuffmanNode rightChildNode) {
         this.leftChildNode = leftChildNode;
         this.rightChildNode = rightChildNode;
-  
+
         frequency = 0;
         frequency += leftChildNode.getFrequency() + rightChildNode.getFrequency();
-        
         isCharacterNode = false;
     }
-    
+
     public HuffmanNode(CharFrequency charFrequency) {
         this.chr = charFrequency;
-        
+
         frequency = charFrequency.getFrequency();
-        
+
         isCharacterNode = true;
     }
-    
+
     public int getFrequency() {
         return this.frequency;
     }
+
+    public HuffmanNode getRightChildNode() {
+        return this.rightChildNode;
+    }
     
+      public HuffmanNode getLeftChildNode() {
+        return this.leftChildNode;
+    }
+
     public CharFrequency getCharacter() {
-        if(isCharacterNode) {
+        if (isCharacterNode) {
             return chr;
         } else {
             return null;
@@ -51,17 +58,17 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
 
     @Override
     public int compareTo(HuffmanNode o) {
-        if(this.getFrequency() > o.getFrequency()) {
+        if (this.getFrequency() > o.getFrequency()) {
             return 1;
-        } else if(this.getFrequency() == o.getFrequency()) {
+        } else if (this.getFrequency() == o.getFrequency()) {
             return 0;
         } else {
             return -1;
         }
     }
-    
+
     @Override
     public String toString() {
-        return Integer.toString(frequency);
+        return Integer.toString( frequency);
     }
 }
