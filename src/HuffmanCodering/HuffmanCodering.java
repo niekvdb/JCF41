@@ -22,30 +22,15 @@ public class HuffmanCodering {
     public HuffmanCodering(String word) {
         //Print the word
         System.out.println("Word to compress: " + word + "\n");
-        //Put the individual characters of the word in a list
-        List<Character> charList = getWordAsCharacters(word);
           //Put unique words together with their frequency in a list
-        List<CharFrequency> freqList = getCharacterFrequency(charList);
+        List<CharFrequency> freqList = getCharacterFrequency(word);
         for(CharFrequency cf : freqList)
         {
             System.out.println(cf); 
         }
     }
 
-    /**
-     * Converts a String into a List of it's characters
-     *
-     * @param word the word to convert
-     * @return a List with all characters of the given word
-     */
-    private List<Character> getWordAsCharacters(String word) {
-        List<Character> wordToCompress = new ArrayList<>();
-        //Put all char objects in the ArrayList
-        for (char c : word.toCharArray()) {
-            wordToCompress.add(c);
-        }
-        return wordToCompress;
-    }
+
 
     /**
      * Converts a List of characters to a List of CharFrequency objects which
@@ -54,9 +39,9 @@ public class HuffmanCodering {
      * @param word the List of words to convert
      * @return a List with every character and it's frequency
      */
-    private List<CharFrequency> getCharacterFrequency(List<Character> word) {
+    private List<CharFrequency> getCharacterFrequency(String word) {
         List<CharFrequency> frequencies = new ArrayList<>();
-        for (Character c : word) {
+        for (Character c : word.toCharArray()) {
             boolean found = false;
             for (CharFrequency cf : frequencies) {
                 if (cf.getCharacter().equals(c)) {
