@@ -21,7 +21,7 @@ public class HuffmanCodering {
         }
 
         /// END OF STEP 1 ///
-        /// Step 2 Sorting the characters on frequency
+        /// Step 2 Sorting the characters on frequency /// 
         freqList.sort(null);
         System.out.println("");
         for (CharFrequency f : freqList) {
@@ -79,15 +79,47 @@ public class HuffmanCodering {
         }
 
         /// END OF STEP 4 ///
-        //Step 5 Encode message and print it
+        
+        /// Step 5 Encode message and print it ///
         String codedMessage = codeMessage(getWordAsCharacters(word));
         System.out.println("Coded message: " + codedMessage);
         System.out.println("Amount of bytes: " + codedMessage.length());
         
         /// END OF STEP 5 ///
-        //step 6 Decode message and print it
+        
+        /// step 6 Decode message and print it ///
+        // verwijzing naar functie
+        
+        Map<String, Character> decodeMap = new HashMap<>();
+        
+        for(Map.Entry<Character, String> entry : codesMap.entrySet()){
+            decodeMap.put(entry.getValue(), entry.getKey());
+        }
+        
+        System.out.println(decodeMessage(codedMessage, decodeMap));
+        
+        /// END OF STEP 6 ///
     }
-
+    
+    private String decodeMessage(String message, Map<String, Character> decodeMap) {
+        String todoMessage = message;
+        String finalMessage = "";
+        while(todoMessage.length() > 0) {
+            boolean characterDone = false;
+            int charactersToRead = 1;
+            while(!characterDone) {
+                if(decodeMap.containsKey(todoMessage.substring(0, charactersToRead))) {
+                    characterDone = true;
+                    finalMessage += decodeMap.get(todoMessage.substring(0, charactersToRead));
+                } else {
+                    charactersToRead++;
+                }
+            }
+            todoMessage = todoMessage.substring(charactersToRead, todoMessage.length());
+        }
+        return finalMessage;
+    }
+    
     /**
      * Converts a List of characters to a List of CharFrequency objects which
      * contain a character and the frequency of it's appearance.
@@ -114,7 +146,7 @@ public class HuffmanCodering {
 
     private void getCodes(HuffmanNode node, String previousSteps) {
 
-        if (node.getCharacter() == null) {
+        if (!node.getIsCharacterNode()) {
             getCodes(node.getRightChildNode(), previousSteps.concat("1"));
             getCodes(node.getLeftChildNode(), previousSteps.concat("0"));
         } else {
