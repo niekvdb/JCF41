@@ -55,6 +55,10 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
             return null;
         }
     }
+    
+    public boolean getIsCharacterNode() {
+        return isCharacterNode;
+    }
 
     @Override
     public int compareTo(HuffmanNode o) {
