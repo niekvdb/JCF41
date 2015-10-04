@@ -66,7 +66,6 @@ public class HuffmanCodering {
 
         /// END OF STEP 3 ///
         /// Step 4 reading the codes from the tree ///
-        
         //Initialize code map
         codesMap = new HashMap<>();
         //Put the codes for each letter in 'codesMap'
@@ -78,9 +77,15 @@ public class HuffmanCodering {
             //Prints character and code in output
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
-        
-        /// END OF STEP 4 ///
 
+        /// END OF STEP 4 ///
+        //Step 5 Encode message and print it
+        String codedMessage = codeMessage(getWordAsCharacters(word));
+        System.out.println("Coded message: " + codedMessage);
+        System.out.println("Amount of bytes: " + codedMessage.length());
+        
+        /// END OF STEP 5 ///
+        //step 6 Decode message and print it
     }
 
     /**
@@ -115,6 +120,32 @@ public class HuffmanCodering {
         } else {
             codesMap.put(node.getCharacter().getCharacter(), previousSteps);
         }
+    }
+
+    private String codeMessage(List<Character> message) {
+        String result = "";
+        if (!codesMap.isEmpty()) {
+            for (char c : message) {
+                result = result.concat(codesMap.get(c) + "");
+            }
+        }
+        return result;
+    }
+    
+    
+    /**
+     * Converts a String into a List of it's characters
+     *
+     * @param word the word to convert
+     * @return a List with all characters of the given word
+     */
+    private List<Character> getWordAsCharacters(String word) {
+        List<Character> wordToCompress = new ArrayList<>();
+        //Put all char objects in the ArrayList
+        for (char c : word.toCharArray()) {
+            wordToCompress.add(c);
+        }
+        return wordToCompress;
     }
 
     /**
