@@ -61,12 +61,12 @@ public class HuffmanCodering {
         /// END OF STEP 6 ///
     }
     
-    private List<CharFrequency> sortCharFrequencyList(List<CharFrequency> freqList) {
+    public List<CharFrequency> sortCharFrequencyList(List<CharFrequency> freqList) {
         freqList.sort(null);
         return freqList;
     }
     
-    private String decodeMessage(String inputMessage, HuffmanNode tree) {
+    public String decodeMessage(String inputMessage, HuffmanNode tree) {
         // Create a string which will hold the message that needs to be decoded further
         String message = inputMessage;
         // A string which will contain the decoded message
@@ -114,7 +114,7 @@ public class HuffmanCodering {
      * @param word the List of words to convert
      * @return a List with every character and it's frequency
      */
-    private List<CharFrequency> getCharacterFrequency(String word) {
+    public List<CharFrequency> getCharacterFrequency(String word) {
         List<CharFrequency> frequencies = new ArrayList<>();
         for (Character c : word.toCharArray()) {
             boolean found = false;
@@ -131,7 +131,7 @@ public class HuffmanCodering {
         return frequencies;
     }
 
-    private void getCodes(HuffmanNode node, String previousSteps) {
+    public void getCodes(HuffmanNode node, String previousSteps) {
 
         if (!node.getIsCharacterNode()) {
             getCodes(node.getRightChildNode(), previousSteps.concat("1"));
@@ -141,7 +141,7 @@ public class HuffmanCodering {
         }
     }
 
-    private String codeMessage(List<Character> message) {
+    public String codeMessage(List<Character> message) {
         String result = "";
         if (!codesMap.isEmpty()) {
             for (char c : message) {
@@ -158,7 +158,7 @@ public class HuffmanCodering {
      * @param word the word to convert
      * @return a List with all characters of the given word
      */
-    private List<Character> getWordAsCharacters(String word) {
+    public List<Character> getWordAsCharacters(String word) {
         List<Character> wordToCompress = new ArrayList<>();
         //Put all char objects in the ArrayList
         for (char c : word.toCharArray()) {
@@ -171,10 +171,10 @@ public class HuffmanCodering {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        HuffmanCodering huffcode = new HuffmanCodering("kunstgeschiedenis");
+        HuffmanCodering huffcode = new HuffmanCodering("autoventieldopfabriek");
     }
 
-    private HuffmanNode createTree(List<CharFrequency> freqList) {
+    public HuffmanNode createTree(List<CharFrequency> freqList) {
         // making a list of huffmannode objects
         List<HuffmanNode> nodes = new ArrayList<>();
 
