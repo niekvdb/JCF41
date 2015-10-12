@@ -8,9 +8,12 @@ import java.util.Map;
 public class HuffmanCodering {
 
     private Map<Character, String> codesMap;
+    public String inputString;
+    public String outputString;
 
     public HuffmanCodering(String word) {
         /// Step 1 counting the frequency of characters ///
+        inputString = word;
 
         //Print the word
         System.out.println("Word to compress: " + word + "\n");
@@ -56,7 +59,8 @@ public class HuffmanCodering {
         /// END OF STEP 5 ///
         
         /// step 6 Decode message and print it ///        
-        System.out.println(decodeMessage(codedMessage, tree));
+        outputString = decodeMessage(codedMessage, tree);
+        System.out.println(outputString);
         
         /// END OF STEP 6 ///
     }

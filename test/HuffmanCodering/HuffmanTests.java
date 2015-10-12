@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.junit.Test;
+import junit.framework.Assert;
 
 /**
  *
@@ -18,6 +19,7 @@ public class HuffmanTests {
     private HuffmanCodering kunstgeschiedenis;
     private HuffmanCodering autoventieldopfabriek;
     private HuffmanCodering randomKarakters;
+    
     
     public HuffmanTests() {
         kunstgeschiedenis = new HuffmanCodering("kunstgeschiedenis");
@@ -29,6 +31,23 @@ public class HuffmanTests {
             randomKarakters = genereerRandomHuffmanObject();
         }
         
+    }
+    
+    @Test
+    public void tijdTest() {
+        int aantalTests = 30;
+        
+        for(int i = 0; i < aantalTests; i++) {
+            // Test uitvoeren, alles gebeurd in dezelfde thread, dus tijd wordt pas gestopt 
+            // wanneer alle operaties al uitgevoerd zijn
+            long beginTime = System.currentTimeMillis();
+            HuffmanCodering instance = genereerRandomHuffmanObject();
+            long duur = (System.currentTimeMillis() - beginTime) / 1000;
+            System.out.println("De totale tijd die nodig was om de boom te bereken is: " + duur);
+            
+            // Test om te kijken of alles nog klopt
+            Assert.assertEquals(instance.inputString, instance.outputString, "De opgegeven code wordt niet op de goede manier ontcijferd");
+        }
     }
     
     private HuffmanCodering genereerRandomHuffmanObject() {
