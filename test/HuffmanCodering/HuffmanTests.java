@@ -44,9 +44,7 @@ public class HuffmanTests {
             HuffmanCodering instance = genereerRandomHuffmanObject();
             long duur = (System.currentTimeMillis() - beginTime) / 1000;
             System.out.println("De totale tijd die nodig was om de boom te bereken is: " + duur);
-            
-            // Test om te kijken of alles nog klopt
-            Assert.assertEquals(instance.inputString, instance.outputString, "De opgegeven code wordt niet op de goede manier ontcijferd");
+            Assert.assertEquals("Er is iets fout gegaan", instance.inputString, instance.outputString);
         }
     }
     
