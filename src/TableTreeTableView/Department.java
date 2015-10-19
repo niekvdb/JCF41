@@ -19,6 +19,7 @@ public class Department {
     private String name;
     private ArrayList<Employee> employees;
     private ObservableList<Employee> observEmployees;
+    private Department HeadDepartment;
 
     public Department(String name) {
         this.name = name;
@@ -39,6 +40,24 @@ public class Department {
      */
     public String getName() {
         return this.name;
+    }
+
+    /**
+     * Get methode om de hoofdafdeling op te halen
+     *
+     * @return een afdeling
+     */
+    public Department getHeadDepartment() {
+        return this.HeadDepartment;
+    }
+
+    /**
+     * Set methode om de hoofdafdeling te setten
+     *
+     * @param headDepartment hoofdafdeling
+     */
+    public void setHeadDepartment(Department headDepartment) {
+        this.HeadDepartment = headDepartment;
     }
 
     /**

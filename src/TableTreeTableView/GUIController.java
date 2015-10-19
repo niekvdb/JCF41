@@ -27,12 +27,12 @@ import javax.swing.JOptionPane;
  * @author Niek
  */
 public class GUIController implements Initializable {
-
+    
     @FXML
     private TreeView treeViewDepartments;
     @FXML
     private TableView tableViewEmployees;
-
+    
     @FXML
     private TableColumn tcFirstname;
     @FXML
@@ -43,11 +43,11 @@ public class GUIController implements Initializable {
     private TextField tbLastname;
     @FXML
     private TextField tbDepartmentName;
-
+    
     private TreeItem<Department> rootItem;
-
+    
     private ObservableList<TreeItem<Department>> observableDepartments;
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //maak nieuwe root item/department aan met naam departments en SET deze in de treeview
@@ -60,25 +60,24 @@ public class GUIController implements Initializable {
 
         //Zorgt er voor dat de treeview ook editable is. Bron: http://docs.oracle.com/javafx/2/ui_controls/tree-view.htm 
         treeViewDepartments.setCellFactory(new Callback<TreeView<Department>, TreeCell<Department>>() {
-
+            
             @Override
             public TreeCell<Department> call(TreeView<Department> param) {
                 return new TextFieldTree(param);
             }
-
+            
         });
-        
-        
+
         //De handler die wordt aangeroepen als er een wijziging word gecommit
         treeViewDepartments.setOnEditCommit(new EventHandler<TreeView.EditEvent<Department>>() {
-
+            
             @Override
             public void handle(TreeView.EditEvent<Department> event) {
                 //De geslecteerde department wordt opgehaald uit de TreeItem en de naam wordt veranderd in de nieuwe opgegeven naam
                 TreeItem<Department> selectedDep = (TreeItem<Department>) treeViewDepartments.getSelectionModel().getSelectedItem();
                 selectedDep.getValue().setName(event.getNewValue().getName());
             }
-
+            
         });
         //Voornaam Collumn
         tcFirstname.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstname"));
@@ -117,6 +116,9 @@ public class GUIController implements Initializable {
                     TreeItem<Department> selectedItem = (TreeItem<Department>) treeViewDepartments.getSelectionModel().getSelectedItem();
                     System.out.println(c.getList());
                     selectedItem.getChildren().add(c.getList().get(c.getList().size() - 1));
+                    //De geselecteerde afdeling is nu hoofdafdeling van de zojuist toegevoegde afdeling
+                    c.getList().get(c.getList().size() - 1).getValue().setHeadDepartment(selectedItem.getValue());
+                    
                 }
             }
         });
@@ -139,7 +141,7 @@ public class GUIController implements Initializable {
             JOptionPane.showMessageDialog(null, "Vul een department naam in.", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
+        
         TreeItem<Department> newItem = new TreeItem<>(new Department(tbDepartmentName.getText()));
         newItem.setExpanded(true);
         observableDepartments.add(newItem);
@@ -158,12 +160,26 @@ public class GUIController implements Initializable {
             JOptionPane.showMessageDialog(null, "Selecteer een department.", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
+        
         Employee emp = new Employee(tbFirstname.getText(), tbLastname.getText());
         TreeItem<Department> selectedItem = (TreeItem<Department>) treeViewDepartments.getSelectionModel().getSelectedItem();
         selectedItem.getValue().addEmployee(emp);
+        //voeg employee ook toe aan hoofdafdeling van de geselecteerde afdeling
+        addEmployeeToheadDepartment(selectedItem.getValue(), emp);
         tbFirstname.clear();
         tbLastname.clear();
     }
-
+    
+    /**
+     * Recursieve methode om een werknemer ook toe te voegen aan de hoofdafdeling van zijn/haar afdeling 
+     * @param department afdeling waar de werknemer dient worden toegevoegd
+     * @param emp de werknemer
+     */
+    public void addEmployeeToheadDepartment(Department department, Employee emp) {
+        if (department.getHeadDepartment() != null) {
+            department.getHeadDepartment().addEmployee(emp);
+            addEmployeeToheadDepartment(department.getHeadDepartment(), emp);
+        } else {
+        }
+    }
 }
